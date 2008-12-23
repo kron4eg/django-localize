@@ -30,6 +30,13 @@ Add 'localize.middleware.LocaleURLMiddleware' to settings.MIDDLEWARE_CLASSES, fo
 
 It must be after !SessionMiddleware!
 
+settings.NON_I18N_URLS is list of except urls, for example
+
+    NON_I18N_URLS = (
+        MEDIA_URL,
+        ADMIN_MEDIA_PREFIX,
+        '/robots.txt',
+    )
 
 Define your languages in settings.LANGUAGES (you may combine it with gettext)
 
