@@ -1,8 +1,7 @@
 Purpose
 =======
 
-django-localize used to add language prefix to your URL without urls.py modifications.
-
+django-localize used to add language prefix to your URL *without urls.py modifications*.
 
 Install
 =======
