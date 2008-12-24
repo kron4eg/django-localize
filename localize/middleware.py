@@ -46,7 +46,6 @@ class LocaleURLMiddleware(LocaleMiddleware):
             return None
 
         redirect_url = u'%s%s%s' % (script_prefix, language, request.path_info)
-        print 'redirect_url=%s' % redirect_url
         for url in getattr(settings, 'NON_I18N_URLS', ()):
             if request.path_info.startswith(url):
                 return None
