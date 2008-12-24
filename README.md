@@ -1,14 +1,14 @@
 Purpose
 =======
 
-django-localize used to add language prefix to your URL *without urls.py modifications*.
+django-localize used to add language prefix to your URL **without urls.py modifications**.
 
 Install
 =======
 
-Put localize somewhere in your sys.path (PYTHONPATH)
+Put `localize` somewhere in your `sys.path` (`PYTHONPATH`)
 
-Add localize to settings.INSTALLED_APPS in !FIRST! position, for example
+Add `localize` to `settings.INSTALLED_APPS` in **FIRST** position, for example
 
     INSTALLED_APPS = (
         'localize',
@@ -18,19 +18,17 @@ Add localize to settings.INSTALLED_APPS in !FIRST! position, for example
         'django.contrib.sessions',
     )
 
-Add 'localize.middleware.LocaleURLMiddleware' to settings.MIDDLEWARE_CLASSES, for example
+Add `'localize.middleware.LocaleURLMiddleware'` to settings.MIDDLEWARE_CLASSES,
 
     MIDDLEWARE_CLASSES = (
-        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',   # SessionMiddleware should go first
         'localize.middleware.LocaleURLMiddleware'
         'django.middleware.common.CommonMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.middleware.http.ConditionalGetMiddleware',
     )
 
-It must be after !SessionMiddleware!
-
-settings.NON_I18N_URLS is list of except urls, for example
+`settings.NON_I18N_URLS` is list of exception urls, for example
 
     NON_I18N_URLS = (
         MEDIA_URL,
@@ -38,7 +36,7 @@ settings.NON_I18N_URLS is list of except urls, for example
         '/robots.txt',
     )
 
-Define your languages in settings.LANGUAGES (you may combine it with gettext)
+Define your languages in `settings.LANGUAGES` (you may combine it with gettext)
 
     LANGUAGES = (
         ('ru', 'Russian'),
@@ -52,13 +50,7 @@ Set settings.USE_I18N
 Usage
 =====
 
-functions and template tag
-
-    django.core.urlresolvers.reverse
-    django.db.models.permalink
-    {% url %} now works with
-
-now accept locale parameter
+Functions `django.core.urlresolvers.reverse`, `django.db.models.permalink` and template tag `{% url %}` now accept locale parameter.
 
 Example
 =======
