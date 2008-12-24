@@ -43,7 +43,7 @@ Define your languages in `settings.LANGUAGES` (you may combine it with gettext)
         ('en', 'English'),
     )
 
-Set settings.USE_I18N
+Set `settings.USE_I18N`
 
     USE_I18N = True
 
