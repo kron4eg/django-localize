@@ -8,6 +8,10 @@ from django.utils.encoding import force_unicode
 
 
 class LocaleURLMiddleware(LocaleMiddleware):
+    """
+    This middleware forces LANGUAGE_CODE prefix for your urls (exclude NON_I18N_URLS).
+    It can be easily disabled or enabled using USE_I18N setting.
+    """
     def __init__(self):
         self.supported = dict(settings.LANGUAGES)
         self.url_check_re = re.compile(r'^/(?P<locale>%s)(?P<path>.*)$' % \
