@@ -4,7 +4,6 @@ from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
-from django.utils.encoding import force_unicode
 
 
 class LocaleURLMiddleware(LocaleMiddleware):
@@ -30,12 +29,12 @@ class LocaleURLMiddleware(LocaleMiddleware):
 
         check = self.url_check_re.match(request.path_info)
         if check:
-            url_lang = check.groupdict()['locale']
-            url_path = check.groupdict()['path']
+            url_lang, url_path = check.groupdict().values()
             if not url_path:
                 return HttpResponsePermanentRedirect('/%s/' % url_lang)
             url_list = url_path.split('/')
-            request.path = request.path_info = request.META['PATH_INFO'] = u'/'.join(url_list)
+            request.path = request.path_info = request.META['PATH_INFO'] \
+                    = u'/'.join(url_list)
             self.remember_lang(request, url_lang)
             translation.activate(url_lang)
             request.LANGUAGE_CODE = url_lang
@@ -45,16 +44,11 @@ class LocaleURLMiddleware(LocaleMiddleware):
             translation.activate(language)
             return None
 
-        redirect_url = None
+        redirect_url = u'/%s%s' % (language, request.path_info)
         for url in getattr(settings, 'NON_I18N_URLS', ()):
-            url = force_unicode(url)
             if request.path_info.startswith(url):
-                redirect_url = None
-                break
-            else:
-                redirect_url = u'/%s%s' % (language, request.path_info)
-        if redirect_url:
-            return HttpResponsePermanentRedirect(redirect_url)
+                return None
+        return HttpResponsePermanentRedirect(redirect_url)
 
     def process_response(self, request, response):
         resp = super(LocaleURLMiddleware, self).process_response(request, response)
