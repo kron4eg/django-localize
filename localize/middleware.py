@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from django.conf import settings
+from django.core.urlresolvers import get_script_prefix
 from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
@@ -23,7 +24,7 @@ class LocaleURLMiddleware(LocaleMiddleware):
     def process_request(self, request):
         language = translation.get_language_from_request(request)[:2]
         request.LANGUAGE_CODE = language
-
+        script_prefix = get_script_prefix()
         if not settings.USE_I18N:
             return None
 
@@ -31,7 +32,7 @@ class LocaleURLMiddleware(LocaleMiddleware):
         if check:
             url_lang, url_path = check.groupdict().values()
             if not url_path:
-                return HttpResponsePermanentRedirect('/%s/' % url_lang)
+                return HttpResponsePermanentRedirect('%s%s/' % (script_prefix, url_lang))
             url_list = url_path.split('/')
             request.path = request.path_info = request.META['PATH_INFO'] \
                     = u'/'.join(url_list)
@@ -44,7 +45,8 @@ class LocaleURLMiddleware(LocaleMiddleware):
             translation.activate(language)
             return None
 
-        redirect_url = u'/%s%s' % (language, request.path_info)
+        redirect_url = u'%s%s%s' % (script_prefix, language, request.path_info)
+        print 'redirect_url=%s' % redirect_url
         for url in getattr(settings, 'NON_I18N_URLS', ()):
             if request.path_info.startswith(url):
                 return None
