@@ -1,0 +1,2 @@
+*  Workout solution, so that it can defeat  `django.middleware.common.CommonMiddleware`
+   and work correct with APPEND_SLASH in URL prefix env.
