@@ -6,6 +6,7 @@ from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
 
+from localize.settings import NON_I18N_URLS
 
 class LocaleURLMiddleware(LocaleMiddleware):
     """
@@ -46,7 +47,7 @@ class LocaleURLMiddleware(LocaleMiddleware):
             return None
 
         redirect_url = u'%s%s%s' % (script_prefix, language, request.path_info)
-        for url in getattr(settings, 'NON_I18N_URLS', ()):
+        for url in NON_I18N_URLS:
             if request.path_info.startswith(url):
                 return None
         return HttpResponsePermanentRedirect(redirect_url)
