@@ -29,7 +29,7 @@ class LocaleURLMiddleware(LocaleMiddleware):
         if not settings.USE_I18N:
             return None
 
-        if request.GET.get('djDebugStatic') or request.GET.get('djDebug'):
+        if any(map(request.GET.get, ('djDebugStatic', 'djDebug'))):
             return None
         check = self.url_check_re.match(request.path_info)
         if check:
